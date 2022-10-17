@@ -1,9 +1,27 @@
----@class Config
+---@class GruvboxFlatConfig
+---@field transparent boolean
+---@field commentStyle string
+---@field keywordStyle string
+---@field functionStyle string
+---@field variableStyle string
+---@field hideInactiveStatusline boolean
+---@field terminalColors boolean
+---@field sidebars string[]
+---@field colors table<string, string>
+---@field theme table<string, {}>
+---@field dev boolean
+---@field darkFloat boolean
+---@field darkSidebar boolean
+---@field transform_colors boolean
 local config
 
 -- shim vim for kitty and other generators
 vim = vim or { g = {}, o = {} }
 
+---@generic T
+---@param key string
+---@param default T
+---@return T
 local function opt(key, default)
   key = "gruvbox_" .. key
   if vim.g[key] == nil then

@@ -3,12 +3,16 @@ local colors = require("gruvbox.colors")
 
 local M = {}
 
----@param config Config
----@return Theme
+---@param config? GruvboxFlatConfig
+---@return GruvboxFlatTheme
 function M.setup(config)
   config = config or require("gruvbox.config")
 
-  ---@class Theme
+  ---@class GruvboxFlatTheme
+  ---@field config GruvboxFlatConfig
+  ---@field color GruvboxFlatColorScheme
+  ---@field base table<string, { fg?: string, bg?: string, sp?: string, style?: string, link?: string }>
+  ---@field plugins table<string, { fg?: string, bg?: string, sp?: string, style?: string, link?: string }>
   local theme = {}
   theme.config = config
   theme.colors = colors.setup(config)

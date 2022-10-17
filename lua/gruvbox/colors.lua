@@ -2,13 +2,55 @@ local util = require("gruvbox.util")
 
 local M = {}
 
----@param config Config
----@return ColorScheme
+---@param config GruvboxFlatConfig
+---@return GruvboxFlatColorScheme
 function M.setup(config)
   config = config or require("gruvbox.config")
 
   -- Color Palette
-  ---@class ColorScheme
+  ---@class GruvboxFlatColorScheme
+  ---@field none "NONE"
+  ---@field reverse "reverse"
+  ---@field bg string
+  ---@field bg2 string
+  ---@field bg_visual string
+  ---@field border string
+  ---@field border_highlight string
+  ---@field line_cursor string
+  ---@field prompt_border string
+  ---@field bg_highlight string
+  ---@field fg string
+  ---@field fg_light string
+  ---@field fg_dark string
+  ---@field tree_normal string
+  ---@field comment string
+  ---@field fg_gutter string
+  ---@field dark5 string
+  ---@field blue string
+  ---@field aqua string
+  ---@field purple string
+  ---@field orange string
+  ---@field yellow string
+  ---@field yellow2 string
+  ---@field bg_yellow string
+  ---@field green string
+  ---@field red string
+  ---@field red1 string
+  ---@field black string
+  ---@field git { delete: string, add: string, change: string, bg_red: string, ignore: string }
+  ---@field gitSigns { delete: string, add: string, change: string }
+  ---@field diff { delete: string, add: string, change: string, text: string }
+  ---@field bg_popup string
+  ---@field bg_statusline string
+  ---@field bg_sidebar string
+  ---@field bg_float string
+  ---@field bg_search string
+  ---@field fg_search string
+  ---@field fg_sidebar string
+  ---@field error string
+  ---@field warning string
+  ---@field info string
+  ---@field hint string
   local colors = {}
 
   colors = {
