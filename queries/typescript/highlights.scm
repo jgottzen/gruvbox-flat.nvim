@@ -1,2 +1,0 @@
-;; extends
-"function" @keyword.function
