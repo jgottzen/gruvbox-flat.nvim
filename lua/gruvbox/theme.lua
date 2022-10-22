@@ -11,8 +11,8 @@ function M.setup(config)
   ---@class GruvboxFlatTheme
   ---@field config GruvboxFlatConfig
   ---@field color GruvboxFlatColorScheme
-  ---@field base table<string, { fg?: string, bg?: string, sp?: string, style?: string, link?: string }>
-  ---@field plugins table<string, { fg?: string, bg?: string, sp?: string, style?: string, link?: string }>
+  ---@field base table<string, { fg?: string, bg?: string, sp?: string, style?: string, link?: string, default?: boolean }>
+  ---@field plugins table<string, { fg?: string, bg?: string, sp?: string, style?: string, link?: string, default?: boolean }>
   local theme = {}
   theme.config = config
   theme.colors = colors.setup(config)
@@ -195,61 +195,78 @@ function M.setup(config)
     -- TSError -> Error for example, so you do not have to define these unless
     -- you explicitly want to support Treesitter's improved syntax awareness.
 
-    -- TSAnnotation        = { };    -- For C++/Dart attributes, annotations that can be attached to the code to denote some kind of meta information.
-    -- TSAttribute         = { };    -- (unstable) TODO: docs
-    -- TSBoolean           = { };    -- For booleans.
-    -- TSCharacter         = { };    -- For characters.
-    -- TSComment           = { };    -- For comment blocks.
-    ["@text.note"] = { fg = c.bg, bg = c.info },
-    ["@text.warning"] = { fg = c.bg, bg = c.warning },
-    ["@text.danger"] = { fg = c.bg, bg = c.error },
-    ["@constructor"] = { fg = c.aqua }, -- For constructor calls and definitions: `= { }` in Lua, and Java constructors.
-    -- TSConditional       = { };    -- For keywords related to conditionnals.
     ["@constant"] = { fg = c.yellow }, -- For constants
-    -- TSConstBuiltin      = { };    -- For constant that are built in the language: `nil` in Lua.
-    -- TSConstMacro        = { };    -- For constants that are defined by macros: `NULL` in C.
-    -- TSError             = { };    -- For syntax/parser errors.
-    -- TSException         = { };    -- For exception related keywords.
+    ["@constructor"] = { fg = c.aqua }, -- For constructor calls and definitions: `= { }` in Lua, and Java constructors.
     ["@field"] = { fg = c.aqua }, -- For fields.
-    -- TSFloat             = { };    -- For floats.
-    -- TSFunction          = { };    -- For function (calls and definitions).
-    -- TSFuncBuiltin       = { };    -- For builtin functions: `table.insert` in Lua.
-    -- TSFuncMacro         = { };    -- For macro defined fuctions (calls and definitions): each `macro_rules` in Rust.
     ["@include"] = { fg = c.blue }, -- For includes: `#include` in C, `use` or `extern crate` in Rust, or `require` in Lua.
     ["@keyword"] = { fg = c.purple, style = config.keywordStyle }, -- For keywords that don't fall in previous categories.
     ["@keyword.function"] = { fg = c.purple, style = config.functionStyle }, -- For keywords used to define a fuction.
     ["@label"] = { fg = c.blue }, -- For labels: `label:` in C and `:label:` in Lua.
-    -- TSMethod            = { };    -- For method calls and definitions.
     ["@namspace"] = { fg = c.red }, -- For identifiers referring to modules and namespaces.
-    -- TSNone              = { };    -- TODO: docs
-    -- TSNumber            = { };    -- For all numbers
     ["@operator"] = { fg = util.darken(c.orange, 0.85) }, -- For any operator: `+`, but also `->` and `*` in C.
     ["@parameter"] = { fg = c.red }, -- For parameters of a function.
-    -- TSParameterReference= { };    -- For references to parameters of a function.
     ["@property"] = { fg = c.red }, -- Same as `TSField`.
-    ["@punctutation.delimiter"] = { fg = c.red }, -- For delimiters ie: `.`
     ["@punctutation.bracket"] = { fg = util.darken(c.orange, 0.85) }, -- For brackets and parens.
+    ["@punctutation.delimiter"] = { fg = c.red }, -- For delimiters ie: `.`
     ["@punctutation.special"] = { fg = util.darken(c.orange, 0.85) }, -- For special punctutation that does not fall in the catagories before.
-    -- TSRepeat            = { };    -- For keywords related to loops.
-    -- TSString            = { };    -- For strings.
-    ["@string.regex"] = { fg = c.orange }, -- For regexes.
     ["@string.escape"] = { fg = c.red }, -- For escape characters within a string.
-    -- TSSymbol            = { };    -- For identifiers referring to symbols or atoms.
-    -- TSType              = { };    -- For types.
-    -- TSTypeBuiltin       = { };    -- For builtin types.
+    ["@string.regex"] = { fg = c.orange }, -- For regexes.
+    ["@tag"] = { fg = c.red }, -- Tags like html tag names.
+    ["@text.danger"] = { fg = c.bg, bg = c.error },
+    ["@text.note"] = { fg = c.bg, bg = c.info },
+    ["@text.reference"] = { fg = c.red }, -- FIXME
+    ["@text.warning"] = { fg = c.bg, bg = c.warning },
     ["@variable"] = { style = config.variableStyle }, -- Any variable name that does not have another highlight.
     ["@variable.builtin"] = { fg = c.aqua }, -- Variable names that are defined by the languages, like `this` or `self`.
 
-    ["@tag"] = { fg = c.red }, -- Tags like html tag names.
-    -- TSTagDelimiter      = { };    -- Tag delimiter like `<` `>` `/`
-    -- TSText              = { };    -- For strings considered text in a markup language.
-    ["@text.reference"] = { fg = c.red }, -- FIXME
-    -- TSEmphasis          = { };    -- For text to be represented with emphasis.
-    -- TSUnderline         = { };    -- For text to be represented with an underline.
-    -- TSStrike            = { };    -- For strikethrough text.
-    -- TSTitle             = { };    -- Text that is part of a title.
-    -- TSLiteral           = { };    -- Literal text.
-    -- TSURI               = { };    -- Any URI like a link or email.
+    ["@annotation"] = { link = "PreProc", default = true }, -- For C++/Dart attributes, annotations that can be attached to the code to denote some kind of meta information.
+    ["@attribute"] = { link = "PreProc", default = true }, -- (unstable) TODO: docs
+    ["@boolean"] = { link = "Boolean", default = true }, -- For booleans.
+    ["@character"] = { link = "Character", default = true }, -- For characters.
+    ["@character.special"] = { link = "SpecialChar", default = true }, -- For characters.
+    ["@comment"] = { link = "Comment", default = true }, -- For comment blocks.
+    ["@conditional"] = { link = "Conditional", default = true }, -- For keywords related to conditionnals.
+    ["@constant.builtin"] = { link = "Special", default = true }, -- For constant that are built in the language: `nil` in Lua.
+    ["@constant.macro"] = { link = "Define", default = true }, -- For constants that are defined by macros: `NULL` in C.
+    ["@debug"] = { link = "Debug", default = true },
+    ["@define"] = { link = "Define", default = true },
+    ["@error"] = { link = "Error", default = true }, -- For syntax/parser errors.
+    ["@exception"] = { link = "Exception", default = true }, -- For exception related keywords.
+    ["@float"] = { link = "Float", default = true }, -- For floats.
+    ["@function"] = { link = "Function", default = true }, -- For function (calls and definitions).
+    ["@function.builtin"] = { link = "Special", default = true }, -- For builtin functions: `table.insert` in Lua.
+    ["@function.call"] = { link = "@function", default = true },
+    ["@function.macro"] = { link = "Macro", default = true },
+    ["@keyword.operator"] = { link = "@operator", default = true },
+    ["@keyword.return"] = { link = "@keyword", default = true },
+    ["@method"] = { link = "Function", default = true },
+    ["@method.call"] = { link = "@method", default = true },
+    ["@none"] = { default = true },
+    ["@number"] = { link = "Number", default = true }, -- For all numbers
+    ["@parameter.reference"] = { link = "@parameter", default = true }, -- For references to parameters of a function.
+    ["@preproc"] = { link = "PreProc", default = true },
+    ["@repeat"] = { link = "Repeat", default = true }, -- For keywords related to loops.
+    ["@string"] = { link = "String", default = true }, -- For strings.
+    ["@string.special"] = { link = "SpecialChar", default = true },
+    ["@symbol"] = { link = "Identifier", default = true }, -- For identifiers referring to symbols or atoms.
+    ["@tag.attribute"] = { link = "@property", default = true },
+    ["@tag.delimiter"] = { link = "Delimiter", default = true },
+    ["@text"] = { link = "@none", default = true }, -- For strings considered text in a markup language.
+    ["@text.emphasis"] = { style = "italic", default = true },
+    ["@text.environment"] = { link = "Macro", default = true },
+    ["@text.environment.name"] = { link = "Type", default = true },
+    ["@text.literal"] = { link = "String", default = true },
+    ["@text.math"] = { link = "Special", default = true },
+    ["@text.strike"] = { style = "strikethrough", default = true },
+    ["@text.strong"] = { style = "bold", default = true },
+    ["@text.title"] = { link = "Title", default = true },
+    ["@text.underline"] = { style = "underline", default = true },
+    ["@text.uri"] = { link = "Underlined", default = true },
+    ["@todo"] = { link = "Todo", default = true },
+    ["@type"] = { link = "Type", default = true }, -- For types.
+    ["@type.builtin"] = { link = "Type", default = true }, -- For builtin types.
+    ["@type.definition"] = { link = "Typedef", default = true }, -- For builtin types.
+    ["@type.qualifier"] = { link = "Type", default = true }, -- For builtin types.
 
     -- Lua
     -- luaTSProperty = { fg = c.red }, -- Same as `TSField`.
@@ -302,13 +319,13 @@ function M.setup(config)
 
     -- NvimTree
     NvimTreeNormal = { fg = c.tree_normal, bg = c.bg_sidebar },
-    NvimTreeFolderIcon = {fg = c.comment},
+    NvimTreeFolderIcon = { fg = c.comment },
     NvimTreeRootFolder = { fg = c.fg_light, style = "bold" },
     NvimTreeSymlink = { fg = c.blue },
-    NvimTreeFolderName = { fg = c.tree_normal},
-    NvimTreeEmptyFolderName = { fg = c.comment},
-    NvimTreeOpenedFolderName = {fg = c.purple},
-    NvimTreeOpenedFile = { fg = c.purple}, -- TODO: not working
+    NvimTreeFolderName = { fg = c.tree_normal },
+    NvimTreeEmptyFolderName = { fg = c.comment },
+    NvimTreeOpenedFolderName = { fg = c.purple },
+    NvimTreeOpenedFile = { fg = c.purple }, -- TODO: not working
     NvimTreeGitDirty = { fg = c.yellow2 },
     NvimTreeGitNew = { fg = c.git.add },
     NvimTreeGitDeleted = { fg = c.git.delete },
@@ -340,12 +357,12 @@ function M.setup(config)
     DiagnosticWarning = { fg = c.warning },
     DiagnosticInformation = { fg = c.info },
     DiagnosticHint = { fg = c.hint },
-    LspSagaHoverBorder = { fg = c.border},
-    LspSagaSignatureHelpBorder = { fg = c.border},
-    LspSagaCodeActionBorder = { fg = c.border},
-    LspSagaAutoPreview = { fg = c.border},
-    LspSagaDefPreviewBorder = {fg = c.border},
-    LspLinesDiagBorder = { fg = c.border},
+    LspSagaHoverBorder = { fg = c.border },
+    LspSagaSignatureHelpBorder = { fg = c.border },
+    LspSagaCodeActionBorder = { fg = c.border },
+    LspSagaAutoPreview = { fg = c.border },
+    LspSagaDefPreviewBorder = { fg = c.border },
+    LspLinesDiagBorder = { fg = c.border },
 
     -- NeoVim
     healthError = { fg = c.error },
@@ -358,10 +375,9 @@ function M.setup(config)
 
     -- Hop
     HopNextKey = { fg = c.red, style = "bold" },
-	HopNextKey1 = { fg = c.blue, style = "bold" },
-	HopNextKey2 = { fg = util.darken(c.blue, 0.80) },
+    HopNextKey1 = { fg = c.blue, style = "bold" },
+    HopNextKey2 = { fg = util.darken(c.blue, 0.80) },
     HopUnmatched = { fg = c.comment },
-
   }
 
   if config.hideInactiveStatusline then

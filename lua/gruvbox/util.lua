@@ -87,7 +87,7 @@ end
 
 -- local ns = vim.api.nvim_create_namespace("gruvbox")
 ---@param group string
----@param color { fg?: string, bg?: string, sp?: string, style?: string, link?: string }
+---@param color { fg?: string, bg?: string, sp?: string, style?: string, link?: string, default?: boolean }
 function util.highlight(group, color)
   if color.fg then
     util.colorsUsed[color.fg] = true
@@ -107,7 +107,7 @@ function util.highlight(group, color)
   local hl = "highlight " .. group .. " " .. style .. " " .. fg .. " " .. bg .. " " .. sp
 
   if color.link then
-    vim.cmd("highlight! link " .. group .. " " .. color.link)
+    vim.cmd("highlight! " .. (color.default and "default " or "") .. "link " .. group .. " " .. color.link)
   else
     -- local data = {}
     -- if color.fg then data.foreground = color.fg end
@@ -171,7 +171,7 @@ function util.template(str, table)
   end))
 end
 
----@param syntax table<string, { fg?: string, bg?: string, sp?: string, style?: string, link?: string }>
+---@param syntax table<string, { fg?: string, bg?: string, sp?: string, style?: string, link?: string, default?: boolean }>
 function util.syntax(syntax)
   for group, colors in pairs(syntax) do
     util.highlight(group, colors)
