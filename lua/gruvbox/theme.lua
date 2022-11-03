@@ -230,7 +230,7 @@ function M.setup(config)
     ["@constant.macro"] = { link = "Define", default = true }, -- For constants that are defined by macros: `NULL` in C.
     ["@debug"] = { link = "Debug", default = true },
     ["@define"] = { link = "Define", default = true },
-    ["@error"] = { link = "Error", default = true }, -- For syntax/parser errors.
+    -- ["@error"] = { link = "Error", default = true }, -- For syntax/parser errors.
     ["@exception"] = { link = "Exception", default = true }, -- For exception related keywords.
     ["@float"] = { link = "Float", default = true }, -- For floats.
     ["@function"] = { link = "Function", default = true }, -- For function (calls and definitions).
