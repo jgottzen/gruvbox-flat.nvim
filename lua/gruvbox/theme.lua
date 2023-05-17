@@ -185,6 +185,8 @@ function M.setup(config)
     -- LspDiagnosticsSignWarning           = { }, -- Used for "Warning" signs in sign column
     -- LspDiagnosticsSignInformation       = { }, -- Used for "Information" signs in sign column
     -- LspDiagnosticsSignHint              = { }, -- Used for "Hint" signs in sign column
+
+    helpCommand = { link = "Identifier" },
   }
 
   theme.plugins = {
@@ -202,10 +204,10 @@ function M.setup(config)
     ["@keyword"] = { fg = c.purple, style = config.keywordStyle }, -- For keywords that don't fall in previous categories.
     ["@keyword.function"] = { fg = c.purple, style = config.functionStyle }, -- For keywords used to define a fuction.
     ["@label"] = { fg = c.blue }, -- For labels: `label:` in C and `:label:` in Lua.
-    ["@namspace"] = { fg = c.red }, -- For identifiers referring to modules and namespaces.
+    ["@namespace"] = { fg = c.red }, -- For identifiers referring to modules and namespaces.
     ["@operator"] = { fg = util.darken(c.orange, 0.85) }, -- For any operator: `+`, but also `->` and `*` in C.
     ["@parameter"] = { fg = c.red }, -- For parameters of a function.
-    ["@property"] = { fg = c.red }, -- Same as `TSField`.
+    ["@property"] = { fg = c.aqua }, -- Same as `@field`.
     ["@punctutation.bracket"] = { fg = util.darken(c.orange, 0.85) }, -- For brackets and parens.
     ["@punctutation.delimiter"] = { fg = c.red }, -- For delimiters ie: `.`
     ["@punctutation.special"] = { fg = util.darken(c.orange, 0.85) }, -- For special punctutation that does not fall in the catagories before.
@@ -217,7 +219,9 @@ function M.setup(config)
     ["@text.reference"] = { fg = c.red }, -- FIXME
     ["@text.warning"] = { fg = c.bg, bg = c.warning },
     ["@variable"] = { style = config.variableStyle }, -- Any variable name that does not have another highlight.
-    ["@variable.builtin"] = { fg = c.aqua }, -- Variable names that are defined by the languages, like `this` or `self`.
+    ["@variable.builtin"] = { fg = c.yellow2, style = "bold" }, -- Variable names that are defined by the languages, like `this` or `self`.
+
+    ["@documentation"] = { fg = c.orange, style = "italic" },
 
     ["@annotation"] = { link = "PreProc", default = true }, -- For C++/Dart attributes, annotations that can be attached to the code to denote some kind of meta information.
     ["@attribute"] = { link = "PreProc", default = true }, -- (unstable) TODO: docs
@@ -268,6 +272,26 @@ function M.setup(config)
     ["@type.definition"] = { link = "Typedef", default = true }, -- For builtin types.
     ["@type.qualifier"] = { link = "Type", default = true }, -- For builtin types.
 
+    -- link lsp groups to treesitter groups
+    ["@lsp.type.namespace"] = { link = "@namespace", default = true },
+    ["@lsp.type.type"] = { link = "@type", default = true },
+    ["@lsp.type.class"] = { link = "@type", default = true },
+    ["@lsp.type.enum"] = { link = "@type", default = true },
+    ["@lsp.type.interface"] = { link = "@type", default = true },
+    ["@lsp.type.struct"] = { link = "@structure", default = true },
+    ["@lsp.type.parameter"] = { link = "@parameter", default = true },
+    ["@lsp.type.variable"] = { link = "@variable", default = true },
+    ["@lsp.type.property"] = { link = "@property", default = true },
+    ["@lsp.type.enumMember"] = { link = "@constant", default = true },
+    ["@lsp.type.function"] = { link = "@function", default = true },
+    ["@lsp.type.method"] = { link = "@method", default = true },
+    ["@lsp.type.macro"] = { link = "@macro", default = true },
+    ["@lsp.type.decorator"] = { link = "@function", default = true },
+    ["@lsp.type.keyword"] = { link = "@keyword", default = true },
+
+    ["@lsp.mod.documentation"] = { link = "@documentation", default = true },
+    ["@lsp.mod.static"] = { link = "@type", default = true },
+
     -- Lua
     -- luaTSProperty = { fg = c.red }, -- Same as `TSField`.
 
@@ -306,8 +330,14 @@ function M.setup(config)
 
     -- GitSigns
     GitSignsAdd = { fg = c.gitSigns.add }, -- diff mode: Added line |diff.txt|
+    GitSignsAddNr = { fg = c.gitSigns.add },
+    GitSignsAddLn = { fg = c.gitSigns.add },
     GitSignsChange = { fg = c.gitSigns.change }, -- diff mode: Changed line |diff.txt|
+    GitSignsChangeNr = { fg = c.gitSigns.change },
+    GitSignsChangeLn = { fg = c.gitSigns.change },
     GitSignsDelete = { fg = c.gitSigns.delete }, -- diff mode: Deleted line |diff.txt|
+    GitSignsDeleteNr = { fg = c.gitSigns.delete },
+    GitSignsDeleteLn = { fg = c.gitSigns.delete },
 
     -- Telescope
     TelescopeBorder = { fg = util.darken(c.fg, 0.75) },
@@ -336,6 +366,9 @@ function M.setup(config)
     LspDiagnosticsWarning = { fg = c.warning },
     LspDiagnosticsInformation = { fg = c.info },
     LspDiagnosticsHint = { fg = c.hint },
+
+    -- YaTree
+    YaTreeNormal = { fg = c.tree_normal, bg = c.bg_sidebar },
 
     -- Dashboard
     DashboardShortCut = { fg = c.purple },

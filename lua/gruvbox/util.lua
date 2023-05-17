@@ -235,16 +235,13 @@ function util.load(theme)
 
   vim.o.termguicolors = true
   vim.g.colors_name = "gruvbox-flat"
-  -- vim.api.nvim__set_hl_ns(ns)
+
   -- load base theme
   util.syntax(theme.base)
 
-  -- load syntax for plugins and terminal async
-  vim.defer_fn(function()
-    util.terminal(theme.colors)
-    util.syntax(theme.plugins)
-    util.autocmds(theme.config)
-  end, 0)
+  util.terminal(theme.colors)
+  util.syntax(theme.plugins)
+  util.autocmds(theme.config)
 end
 
 ---@param colors GruvboxFlatColorScheme
