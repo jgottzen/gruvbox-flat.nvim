@@ -2,7 +2,7 @@ local util = require("gruvbox.util")
 
 local M = {}
 
----@param config GruvboxFlatConfig
+---@param config? GruvboxFlatConfig
 ---@return GruvboxFlatColorScheme
 function M.setup(config)
   config = config or require("gruvbox.config")
@@ -143,6 +143,7 @@ function M.setup(config)
 
   util.color_overrides(colors, config)
 
+  M.colors = colors
   return colors
 end
 

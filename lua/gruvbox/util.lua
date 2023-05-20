@@ -228,9 +228,9 @@ end
 
 ---@param theme GruvboxFlatTheme
 function util.load(theme)
-  vim.cmd("hi clear")
+  vim.cmd.highlight("clear")
   if vim.fn.exists("syntax_on") then
-    vim.cmd("syntax reset")
+    vim.cmd.syntax("clear")
   end
 
   vim.o.termguicolors = true
