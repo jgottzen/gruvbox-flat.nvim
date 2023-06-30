@@ -510,6 +510,10 @@ function M.setup()
     TSRainbowViolet = { fg = c.purple },
     TSRainbowCyan = { fg = c.aqua },
 
+    -- headlines.nvim
+    CodeBlock = { bg = c.bg1 },
+    Headline = { bg = c.green_dark },
+
     -- languages
 
     helpCommand = { link = "Identifier" },

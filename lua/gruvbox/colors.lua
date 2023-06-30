@@ -30,6 +30,7 @@ function M.setup(config)
     yellow_dark = "#b47109",
     green = "#a9b665",
     green_light = "#6f8352",
+    green_dark = "#1e2718",
     red = "#ea6962",
     red_dark = "#c14a4a",
     pink = "#ae5858",
